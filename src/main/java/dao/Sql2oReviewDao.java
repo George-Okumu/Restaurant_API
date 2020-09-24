@@ -33,6 +33,7 @@ public class Sql2oReviewDao implements ReviewDao {
         }
     }
 
+
     @Override
     public List<Review> getAllReviewsByRestaurant(int restaurantId) {
         try(Connection con = sql2o.open()) {
@@ -44,7 +45,7 @@ public class Sql2oReviewDao implements ReviewDao {
 
     @Override
     public void deleteById(int id) {
-        String sql = "DELETE FROM reviews WHERE id=:id";
+        String sql = "DELETE from reviews WHERE id=:id";
         try (Connection con = sql2o.open()) {
             con.createQuery(sql)
                     .addParameter("id", id)
