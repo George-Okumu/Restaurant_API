@@ -71,6 +71,13 @@ public class RestaurantTest {
     }
 
     @Test
+    public void equals_ReturnsTrueIfAllObjectsOfRestaurantAreTheSame() throws Exception{
+        Restaurant firstRestaurant = setUpRestaurant();
+        Restaurant secondRestaurant = setUpRestaurant();
+        assertTrue(firstRestaurant.equals(secondRestaurant));   
+    }
+
+    @Test
     public void setAddressSetsCorrectAddress() throws Exception {
         Restaurant testRestaurant = setUpRestaurant();
         testRestaurant.setAddress("00100");
