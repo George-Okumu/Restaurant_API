@@ -1,93 +1,122 @@
-//package dao;
-//
-//import models.Restaurant;
-//import models.Review;
-//import org.junit.After;
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.sql2o.Connection;
-//import org.sql2o.Sql2o;
-//
-//import static org.junit.Assert.*;
-//
-//public class Sql2oRestaurantDaoTest {
-//    private Connection conn;
-//    private Sql2oReviewDao reviewDao;
-//    private Sql2oRestaurantDao restaurantDao;
-//    private Sql2oFoodtypeDao foodtypeDao;
-//
-//    @Before
-//    public void setUp() throws Exception {
-//        String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:DB/create.sql'";
-//        Sql2o sql2o = new Sql2o(connectionString, "", "");
-//        restaurantDao = new Sql2oRestaurantDao(sql2o);
-//        foodtypeDao = new Sql2oFoodtypeDao(sql2o);
-//        reviewDao = new Sql2oReviewDao(sql2o);
-//        conn = sql2o.open();
-//    }
-//
-//    @After
-//    public void tearDown() throws Exception {
-//        conn.close();
-//    }
-//
-//    @Test
-//    public void addingReviewSetsId() throws Exception {
-//        Review testReview = setupReview();
-//        assertEquals(1, testReview.getId());
-//    }
-//
-//    @Test
-//    public void getAll() throws Exception {
-//        Review review1 = setupReview();
-//        Review review2 = setupReview();
-//        assertEquals(2, reviewDao.getAll().size());
-//    }
-//
-//    @Test
-//    public void getAllReviewsByRestaurant() throws Exception {
-//        Restaurant testRestaurant = setupRestaurant();
-//        Restaurant otherRestaurant = setupRestaurant(); //add in some extra data to see if it interferes
-//        Review review1 = setupReviewForRestaurant(testRestaurant);
-//        Review review2 = setupReviewForRestaurant(testRestaurant);
-//        Review reviewForOtherRestaurant = setupReviewForRestaurant(otherRestaurant);
-//        assertEquals(2, reviewDao.getAllReviewsByRestaurant(testRestaurant.getId()).size());
-//    }
-//
-//    @Test
-//    public void deleteById() throws Exception {
-//        Review testReview = setupReview();
-//        Review otherReview = setupReview();
-//        assertEquals(2, reviewDao.getAll().size());
-//        reviewDao.deleteById(testReview.getId());
-//        assertEquals(1, reviewDao.getAll().size());
-//    }
-//
-//    @Test
-//    public void clearAll() throws Exception {
-//        Review testReview = setupReview();
-//        Review otherReview = setupReview();
-//        reviewDao.clearAll();
-//        assertEquals(0, reviewDao.getAll().size());
-//    }
-//
-//    //helpers
-//
-//    public Review setupReview() {
-//        Review review = new Review("great", "Kim", 4, 555);
-//        reviewDao.add(review);
-//        return review;
-//    }
-//
-//    public Review setupReviewForRestaurant(Restaurant restaurant) {
-//        Review review = new Review("great", "Kim", 4, restaurant.getId());
-//        reviewDao.add(review);
-//        return review;
-//    }
-//
-//    public Restaurant setupRestaurant() {
-//        Restaurant restaurant = new Restaurant("Blue City, "0100", "01200", "07123456789", "http://fishwitch.com", "hellofishy@fishwitch.com");
-//        restaurantDao.add(restaurant);
-//        return restaurant;
-//    }
-//}
+package dao;
+
+import models.Foodtype;
+import models.Restaurant;
+import models.Review;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
+
+import java.util.Arrays;
+
+import static org.junit.Assert.*;
+
+public class Sql2oRestaurantDaoTest {
+private Connection conn;
+private Sql2oRestaurantDao restaurantDao;
+private Sql2oFoodtypeDao foodtypeDao;
+private Sql2oReviewDao reviewDao;
+
+@Before
+public void setUp() throws Exception {
+        String connectionString = "jdbc:h2:mem:testing;INIT=RUNSCRIPT from 'classpath:DB/create.sql'";
+        Sql2o sql2o = new Sql2o(connectionString, "", "");
+        restaurantDao = new Sql2oRestaurantDao(sql2o);
+        foodtypeDao = new Sql2oFoodtypeDao(sql2o);
+        reviewDao = new Sql2oReviewDao(sql2o);
+        conn = sql2o.open();
+        }
+
+        @After
+        public void tearDown() throws Exception {
+        conn.close();
+        }
+
+        @Test
+        public void addingFoodSetsId() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        assertNotEquals(0, testRestaurant.getId());
+        }
+
+        @Test
+        public void addedRestaurantsAreReturnedFromGetAll() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        assertEquals(1, restaurantDao.getAll().size());
+        }
+
+        @Test
+        public void noRestaurantsReturnsEmptyList() throws Exception {
+        assertEquals(0, restaurantDao.getAll().size());
+        }
+
+        @Test
+        public void findByIdReturnsCorrectRestaurant() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        Restaurant otherRestaurant = setupRestaurant();
+        assertEquals(testRestaurant, restaurantDao.findById(testRestaurant.getId()));
+        }
+
+        @Test
+        public void updateCorrectlyUpdatesAllFields() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        restaurantDao.update(testRestaurant.getId(), "blueWhale", "0100", "01300", "07987654321", "e", "f");
+        Restaurant foundRestaurant = restaurantDao.findById(testRestaurant.getId());
+        assertEquals("blueWhale", foundRestaurant.getName());
+        assertEquals("0100", foundRestaurant.getAddress());
+        assertEquals("01300", foundRestaurant.getZipcode());
+        assertEquals("07987654321", foundRestaurant.getPhone());
+        assertEquals("e", foundRestaurant.getWebsite());
+        assertEquals("f", foundRestaurant.getEmail());
+        }
+
+        @Test
+        public void deleteByIdDeletesCorrectRestaurant() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        Restaurant otherRestaurant = setupRestaurant();
+        restaurantDao.deleteById(testRestaurant.getId());
+        assertEquals(1, restaurantDao.getAll().size());
+        }
+
+        @Test
+        public void clearAll() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        Restaurant otherRestaurant = setupRestaurant();
+        restaurantDao.clearAll();
+        assertEquals(0, restaurantDao.getAll().size());
+        }
+
+        @Test
+        public void RestaurantReturnsFoodtypesCorrectly() throws Exception {
+        Foodtype testFoodtype  = new Foodtype("Seafood");
+        foodtypeDao.add(testFoodtype);
+
+        Foodtype otherFoodtype  = new Foodtype("Bar Food");
+        foodtypeDao.add(otherFoodtype);
+
+        Restaurant testRestaurant = setupRestaurant();
+        restaurantDao.add(testRestaurant);
+        restaurantDao.addRestaurantToFoodtype(testRestaurant,testFoodtype);
+        restaurantDao.addRestaurantToFoodtype(testRestaurant,otherFoodtype);
+
+        Foodtype[] foodtypes = {testFoodtype, otherFoodtype}; //oh hi what is this?
+
+        assertEquals(Arrays.asList(foodtypes), restaurantDao.getAllFoodtypesByARestaurant(testRestaurant.getId()));
+        }
+
+
+        //helpers
+
+        public Restaurant setupRestaurant (){
+        Restaurant restaurant = new Restaurant("Fish Omena", "214 NE Ngara", "97232", "254-402-9874", "http://fishwitch.com", "hellofishy@fishwitch.com");
+        restaurantDao.add(restaurant);
+        return restaurant;
+        }
+
+        public Restaurant setupAltRestaurant (){
+        Restaurant restaurant = new Restaurant("Fish Omena", "214 NE Ngara", "97232", "254-402-9874");
+        restaurantDao.add(restaurant);
+        return restaurant;
+        }
+}

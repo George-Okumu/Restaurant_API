@@ -11,6 +11,7 @@ public class Restaurant {
     private String email;
     private int id;
 
+
     public Restaurant(String name, String address, String zipcode, String phone) {
         this.name = name;
         this.address = address;
