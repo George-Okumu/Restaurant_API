@@ -17,7 +17,7 @@ public interface FoodtypeDao {
     List<Foodtype> getAll();
     List<Restaurant> getAllRestaurantsForAFoodtype(int id);
 
-    //void findById(Foodtype foodtype);
+    Foodtype findById(int id);
 
     void deleteById(int id);
 

@@ -72,14 +72,14 @@ public class Sql2oFoodtypeDao implements FoodtypeDao {
 
 
 
-//    @Override
-//    public void findById(Foodtype foodtype) {
-//        try(Connection con = sql2o.open()){
-//            return con.createQuery("SELECT * FROM restaurants WHERE id = :id")
-//                    .addParameter("id", id) //key/value pair, key must match above
-//                    .executeAndFetchFirst(Foodtype.class); //fetch an individual item
-//        }
-//    }
+    @Override
+    public Foodtype findById(int id) {
+        try(Connection con = sql2o.open()){
+            return con.createQuery("SELECT * FROM restaurants WHERE id = :id")
+                    .addParameter("id", id) //key/value pair, key must match above
+                    .executeAndFetchFirst(Foodtype.class); //fetch an individual item
+        }
+    }
 
     @Override
     public void deleteById(int id) {
