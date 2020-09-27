@@ -114,7 +114,11 @@ public class App {
 
         get("/restaurants/:id", "application/json", (req, res) -> { //accept a request in format JSON from an app
             int restaurantId = Integer.parseInt(req.params("id"));
-            return gson.toJson(restaurantDao.findById(restaurantId));
+            Restaurant restaurantToFind = restaurantDao.findById(restaurantId);
+            if (restaurantToFind == null){
+                throw new ApiException(404, String.format("No restaurant with the id: \"%s\" exists", req.params("id")));
+            }
+            return gson.toJson(restaurantToFind);
         });
 
 
