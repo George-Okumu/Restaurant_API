@@ -1,19 +1,21 @@
 package dao;
 
-import models.Restaurant;
-import models.Review;
+import model.Restaurant;
+import model.Review;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 public class Sql2oReviewDaoTest {
     private Connection conn;
     private Sql2oReviewDao reviewDao;
     private Sql2oRestaurantDao restaurantDao;
+
+    private static  Sql2o sql2o;
 
     @Before
     public void setUp() throws Exception {
@@ -26,8 +28,25 @@ public class Sql2oReviewDaoTest {
 
     @After
     public void tearDown() throws Exception {
+        reviewDao.clearAll();
         conn.close();
     }
+
+    @Test
+    public void timeStampIsReturnedCorrectly() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        restaurantDao.add(testRestaurant);
+        Review testReview = new Review("Captain Kirk", "foodcoma!", 3, testRestaurant.getId());
+        reviewDao.add(testReview);
+
+        long creationTime = testReview.getCreatedat();
+        long savedTime = reviewDao.getAll().get(0).getCreatedat();
+        String formattedCreationTime = testReview.getFormattedCreatedAt();
+        String formattedSavedTime = reviewDao.getAll().get(0).getFormattedCreatedAt();
+        assertEquals(formattedCreationTime,formattedSavedTime);
+        assertEquals(creationTime, savedTime);
+    }
+
 
     @Test
     public void addingReviewSetsId() throws Exception {
@@ -88,4 +107,5 @@ public class Sql2oReviewDaoTest {
         restaurantDao.add(restaurant);
         return restaurant;
     }
+
 }

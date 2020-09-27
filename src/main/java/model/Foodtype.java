@@ -1,4 +1,4 @@
-package models;
+package model;
 
 import java.util.Objects;
 
@@ -10,6 +10,21 @@ public class Foodtype {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Foodtype)) return false;
+        Foodtype foodtype = (Foodtype) o;
+        return id == foodtype.id &&
+                Objects.equals(name, foodtype.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, id);
+    }
+
+    //Getters n setters
     public String getName() {
         return name;
     }
@@ -24,18 +39,5 @@ public class Foodtype {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Foodtype foodtype = (Foodtype) o;
-        return name.equals(foodtype.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(name);
     }
 }

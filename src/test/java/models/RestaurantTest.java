@@ -1,10 +1,12 @@
 package models;
 
+import model.Restaurant;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class RestaurantTest {
 
@@ -16,106 +18,87 @@ public class RestaurantTest {
     public void tearDown() throws Exception {
     }
 
-
-    @Test
-    public void restaurant_instantiates_correctlyWithObjects_true() throws Exception{
-        Restaurant testRestaurant = setUpRestaurant();
-        assertEquals(true, testRestaurant instanceof Restaurant);
-    }
-
     @Test
     public void getNameReturnsCorrectName() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        assertEquals("George", testRestaurant.getName());
+        Restaurant testRestaurant = setupRestaurant();
+        assertEquals("Fish Witch", testRestaurant.getName());
     }
-
 
     @Test
     public void getAddressReturnsCorrectAddress() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        assertEquals("0100", testRestaurant.getAddress());
+        Restaurant testRestaurant = setupRestaurant();
+        assertEquals("214 NE Broadway", testRestaurant.getAddress());
     }
-
 
     @Test
-    public void getZipcodeReturnsCorrectZipcode() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        assertEquals("01200", testRestaurant.getZipcode());
+    public void getZipReturnsCorrectZip() throws Exception {
+        Restaurant testRestaurant = setupRestaurant();
+        assertEquals("97232", testRestaurant.getZipcode());
     }
-
-
     @Test
     public void getPhoneReturnsCorrectPhone() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        assertEquals("07123456789", testRestaurant.getPhone());
+        Restaurant testRestaurant = setupRestaurant();
+        assertEquals("503-402-9874", testRestaurant.getPhone());
     }
-
 
     @Test
     public void getWebsiteReturnsCorrectWebsite() throws Exception {
-        Restaurant testRestaurant = setUp2Restaurant();
-        assertEquals("no website listed here", testRestaurant.getWebsite());
+        Restaurant testRestaurant = setupAltRestaurant();
+        assertEquals("no website listed", testRestaurant.getWebsite());
     }
 
     @Test
     public void getEmailReturnsCorrectEmail() throws Exception {
-        Restaurant testRestaurant = setUp2Restaurant();
-        assertEquals("no email listed here", testRestaurant.getEmail());
+        Restaurant testRestaurant = setupAltRestaurant();
+        assertEquals("no email available", testRestaurant.getEmail());
     }
 
     @Test
     public void setNameSetsCorrectName() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        testRestaurant.setName("George");
-        assertEquals("George", testRestaurant.getName());
-    }
-
-    @Test
-    public void equals_ReturnsTrueIfAllObjectsOfRestaurantAreTheSame() throws Exception{
-        Restaurant firstRestaurant = setUpRestaurant();
-        Restaurant secondRestaurant = setUpRestaurant();
-        assertTrue(firstRestaurant.equals(secondRestaurant));
+        Restaurant testRestaurant = setupRestaurant();
+        testRestaurant.setName("Steak House");
+        assertNotEquals("Fish Witch",testRestaurant.getName());
     }
 
     @Test
     public void setAddressSetsCorrectAddress() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        testRestaurant.setAddress("00100");
+        Restaurant testRestaurant = setupRestaurant();
+        testRestaurant.setAddress("6600 NE Ainsworth");
         assertNotEquals("214 NE Broadway", testRestaurant.getAddress());
     }
 
     @Test
     public void setZipSetsCorrectZip() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        testRestaurant.setZipcode("01200");
+        Restaurant testRestaurant = setupRestaurant();
+        testRestaurant.setZipcode("78902");
         assertNotEquals("97232", testRestaurant.getZipcode());
     }
     @Test
     public void setPhoneSetsCorrectPhone() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        testRestaurant.setPhone("07123456789");
+        Restaurant testRestaurant = setupRestaurant();
+        testRestaurant.setPhone("971-898-7878");
         assertNotEquals("503-402-9874", testRestaurant.getPhone());
     }
 
     @Test
     public void setWebsiteSetsCorrectWebsite() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        testRestaurant.setWebsite("http://bluelink.com");
+        Restaurant testRestaurant = setupRestaurant();
+        testRestaurant.setWebsite("http://steakhouse.com");
         assertNotEquals("http://fishwitch.com", testRestaurant.getWebsite());
     }
 
     @Test
     public void setEmailSetsCorrectEmail() throws Exception {
-        Restaurant testRestaurant = setUpRestaurant();
-        testRestaurant.setEmail("gokumu12@gmail.com");
+        Restaurant testRestaurant = setupRestaurant();
+        testRestaurant.setEmail("steak@steakhouse.com");
         assertNotEquals("hellofishy@fishwitch.com", testRestaurant.getEmail());
     }
 
-    public Restaurant setUpRestaurant(){
-        return new Restaurant("George", "0100", "01200", "07123456789", "https//bluelink.com", "gokumu12@gmail.com");
+    public Restaurant setupRestaurant (){
+        return new Restaurant("Fish Witch", "214 NE Broadway", "97232", "503-402-9874", "http://fishwitch.com", "hellofishy@fishwitch.com");
     }
 
-    public Restaurant setUp2Restaurant(){
-        return new Restaurant("George", "0100", "01200", "073836453654");
+    public Restaurant setupAltRestaurant (){
+        return new Restaurant("Fish Witch", "214 NE Broadway", "97232", "503-402-9874");
     }
 }

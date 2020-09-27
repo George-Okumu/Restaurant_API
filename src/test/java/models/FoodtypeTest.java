@@ -1,11 +1,12 @@
 package models;
 
+import model.Foodtype;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class FoodtypeTest {
 
@@ -18,39 +19,27 @@ public class FoodtypeTest {
     }
 
     @Test
-    public void foodtype_instantiatesCorrectly_true() throws Exception {
-        Foodtype testFoodtype = setUpFoodtype();
-        Assert.assertTrue(true);
+    public void getName() {
+        Foodtype testFoodtype = setupFoodtype();
+        assertEquals("dessert", testFoodtype.getName());
     }
 
     @Test
-    public void foodtype_getsNameCorrectly_string() throws Exception {
-        Foodtype testFoodtype = setUpFoodtype();
-        assertEquals("Chips", testFoodtype.getName());
+    public void setName() {
+        Foodtype testFoodtype = setupFoodtype();
+        testFoodtype.setName("breakfast");
+        assertNotEquals("dessert", testFoodtype.getName());
     }
 
     @Test
-    public void foodtype_setsNameCorrectly() throws Exception {
-        Foodtype testFoodtype = setUpFoodtype();
-        testFoodtype.setName("Chips");
-        assertEquals("Chips", testFoodtype.getName());
-    }
-
-    @Test
-    public void equals_foodtypeReturnsTrueIfFoodtypeNameAreTheSame() throws Exception{
-        Foodtype oneFoodtype = setUpFoodtype();
-        Foodtype secondFoodtype = setUpFoodtype();
-        assertTrue(oneFoodtype.equals(secondFoodtype));
-    }
-
-    @Test
-    public void foodtype_setsId() throws Exception {
-        Foodtype testFoodtype = setUpFoodtype();
+    public void setId() {
+        Foodtype testFoodtype = setupFoodtype();
         testFoodtype.setId(5);
         assertEquals(5, testFoodtype.getId());
     }
 
-    public Foodtype setUpFoodtype(){
-        return new Foodtype("Chips");
+    // helper
+    public Foodtype setupFoodtype(){
+        return new Foodtype("dessert");
     }
 }

@@ -1,11 +1,12 @@
 package models;
 
+import model.Review;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 public class ReviewTest {
 
@@ -18,71 +19,67 @@ public class ReviewTest {
     }
 
     @Test
-    public void review_instantiatesCorrectlyWithObjects_true() {
-        Review testReview = setUpReview();
-        Assert.assertTrue(true);
+    public void getContent() {
+        Review testReview = setupReview();
+        assertEquals("Great service", testReview.getContent());
     }
 
     @Test
-    public void getContentReturnsCorrectContent_true() throws Exception {
-        Review testReview = setUpReview();
-        assertEquals("Nice place to dinner", testReview.getContent());
+    public void setContent() {
+        Review testReview = setupReview();
+        testReview.setContent("No free dessert :(");
+        assertNotEquals("Great service", testReview.getContent());
     }
 
     @Test
-    public void getWrittenByReturnsCorrectWrittenBy_string() throws Exception {
-        Review testReview = setUpReview();
-        assertEquals("Vivian", testReview.getWrittenBy());
+    public void getWrittenBy() {
+        Review testReview = setupReview();
+        assertEquals("Kim", testReview.getWrittenBy());
     }
 
     @Test
-    public void getRatingReturnsCorrectRating_int() throws Exception {
-        Review testReview = setUpReview();
-        assertEquals(100, testReview.getRating());
+    public void setWrittenBy() {
+        Review testReview = setupReview();
+        testReview.setWrittenBy("Mike");
+        assertNotEquals("Kim", testReview.getWrittenBy());
     }
 
     @Test
-    public void getRestaurantIdReturnsCorrectRestaurantId_int() throws Exception {
-        Review testReview = setUpReview();
+    public void getRating() {
+        Review testReview = setupReview();
+        assertEquals(4, testReview.getRating());
+    }
+
+    @Test
+    public void setRating() {
+        Review testReview = setupReview();
+        testReview.setRating(1);
+        assertNotEquals(4, testReview.getRating());
+    }
+
+    @Test
+    public void getRestaurantId() {
+        Review testReview = setupReview();
         assertEquals(1, testReview.getRestaurantId());
     }
 
     @Test
-    public void equals_reviewObjectsReturnsTheSameValues() {
-        Review firstReview = setUpReview();
-        Review secondReview = setUpReview();
-        assertTrue(firstReview.equals(secondReview));
+    public void setRestaurantId() {
+        Review testReview = setupReview();
+        testReview.setRestaurantId(10);
+        assertNotEquals(1, testReview.getRestaurantId());
     }
 
     @Test
-    public void reviewSetsCorrectContent() throws Exception{
-        Review testReview = setUpReview();
-        testReview.setContent("Nice place to dinner");
-        assertNotEquals("No review", testReview.getContent());
+    public void setId() {
+        Review testReview = setupReview();
+        testReview.setId(5);
+        assertEquals(5, testReview.getId());
     }
 
-    @Test
-    public void reviewSetsCorrectWrittenBy() throws Exception{
-        Review testReview = setUpReview();
-        testReview.setWrittenBy("Vivian");
-        assertNotEquals("George", testReview.getWrittenBy());
+    // helper
+    public Review setupReview (){
+        return new Review("Great service", "Kim", 4, 1);
     }
 
-    @Test
-    public void reviewSetsCorrectRating() throws Exception{
-        Review testReview = setUpReview();
-        testReview.setRating(100);
-        assertEquals(100, testReview.getRating());
-    }
-
-    @Test
-    public void reviewSetsCorrectRestaurantId() throws Exception{
-        Review testReview = setUpReview();
-        testReview.setRestaurantId(1);
-        assertNotEquals(250, testReview.getRestaurantId());
-    }
-
-    public Review setUpReview(){
-        return new Review ("Nice place to dinner", "Vivian", 100, 1);
-    }
 }
